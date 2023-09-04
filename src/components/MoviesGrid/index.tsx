@@ -8,23 +8,60 @@ import Skeleton from "./Skeleton";
 
 type Props = {
     isLoading:boolean,
-    movies:IMovieResult
+    movies:IMovieResult | ITvShowsResult | ISearchResult
 }
 
 const MoviesGrid = ({isLoading,movies,}:Props) => {
     const router = useRouter()
 
-    const handleClick = (movieId: number | undefined) => {
-        if (movieId) {
+
+    const handleClick = (movieId: number | undefined, title:string|undefined) => {
+      if(movieId){
+        if (title) {
           router.push(`/movie/${movieId}`)
+        }else{
+          router.push(`/tv-show/${movieId}`)
         }
+      }
+       
       };
     
      if(isLoading) return <Skeleton />
 
+
+     const containerVariant = {
+          hidden: {
+              // x: "-100vw", //move out of the site
+          },
+          visible: {
+              // x: 0, // bring it back to nrmal
+              transition: {
+                  delay: 0,
+                  when: "beforeChildren", //use this instead of delay
+                  staggerChildren: 0.1, //apply stagger on the parent tag
+              },
+          },
+      };
+
+      const listVariant = {
+          hidden: {
+              x: -10, //move out of the site
+              // y:-10,
+              opacity: 0,
+          },
+          visible: {
+              x: 0, // bring it back to nrmal
+              // y:0,
+              opacity: 1,
+          },
+      };
+
     return (
         <motion.div
           layoutId="trending-data"
+          variants={containerVariant}
+                animate="visible"
+                initial="hidden"
           className="
             col-gap-4 grid 
               gap-3  
@@ -35,6 +72,7 @@ const MoviesGrid = ({isLoading,movies,}:Props) => {
             : movies?.results?.map((res) => (
                 <motion.div
                   key={res.id}
+                  variants={listVariant}
                   layoutId={`movie-${res.id}`}
                   className=" mx-auto flex w-fit flex-col items-center max-w-[240px]
                 justify-start rounded-md   shadow-md  dark:bg-accent sm:mb-2 lg:mb-5 
@@ -44,7 +82,8 @@ const MoviesGrid = ({isLoading,movies,}:Props) => {
                     className=" relative rounded rounded-t-md border-b-2  border-accent 
        cursor-pointer group
        "
-                    onClick={() => handleClick(res.id)}
+      //  @ts-ignore
+                    onClick={() => handleClick(res.id,res?.title)}
                   >
                     <motion.div
                       initial={{ opacity: 0 }}
@@ -61,7 +100,8 @@ const MoviesGrid = ({isLoading,movies,}:Props) => {
                       loading="lazy"
                       placeholder="blur"
                       blurDataURL="/images/placeholder-portrait.jpg"
-                      alt={res.title || "Search Result Image"}
+                      //  @ts-ignore 
+                      alt={res?.title || res?.name || "Search Result Image"}
                       src={
                         res.poster_path
                           ? `${process.env.NEXT_PUBLIC_TMDB_IMAGE_URL}${process.env.NEXT_PUBLIC_W500}${res.poster_path}`
@@ -77,20 +117,22 @@ const MoviesGrid = ({isLoading,movies,}:Props) => {
                   </div>
                   <div
                     className=" bottom-0 flex  flex-wrap h-full w-full
-                        items-start justify-start p-2 font-semibold  text-md 
+                        items-start justify-start p-2   text-md 
                         "
                   >
                     <motion.div
-                      className=" title text-left w-full  cursor-pointer opacity-60"
+                      className=" title text-left w-full  cursor-pointer opacity-80"
     
                       whileHover={{
                         y: -.5,
                         opacity: 1,
                         transition: { type: easeIn, duration: 0.4 },
                       }}
-                      onClick={() => handleClick(res.id)}
+                      // @ts-ignore
+                      onClick={() => handleClick(res.id,res?.title)}
                     >
-                      {res.title || "No Title!"}
+                      {/* @ts-ignore */}
+                      {res?.title || res?.name  || "No Title!"}
                     </motion.div>
                   </div>
                 </motion.div>

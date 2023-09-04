@@ -27,7 +27,7 @@ export default Skeleton;
 const CardSkeleton = () => {
 
     return (
-        <div className="bg-white  w-[240px] h-[360px] dark:bg-accent rounded-lg shadow-lg flex flex-col">
+        <div className="bg-white  w-[210px] h-[360px] dark:bg-accent rounded-lg shadow-lg flex flex-col">
             <SSkeleton className="w-full h-[300px] rounded-t rounded-b-none" />
             <SSkeleton className="mt-2 h-4 w-11/12 mx-auto" />
             <SSkeleton className="mt-1 h-4 w-11/12 mx-auto" />

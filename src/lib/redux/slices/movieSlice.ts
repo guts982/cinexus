@@ -8,8 +8,13 @@ export interface IGlobalState {
     searchData: ISearchData[]  ,
 
     //Trending
+    trendingCategory:"all"|"movie"|"tv",
     trendingTimeWindow:"day"|"week",
-    trendingData:IMovie[]
+    trendingData:IMovie[],
+
+    //Lists
+    movieList:IMovieList,
+    tvSeriesList:ITvSeriesList
     
 }
 
@@ -19,8 +24,11 @@ const initialState: IGlobalState = {
     searchQuery: null,
     searchResult: {},
     searchData: [],
+    trendingCategory:"all",
     trendingTimeWindow:"day",
-    trendingData:[]
+    trendingData:[],
+    movieList:"popular",
+    tvSeriesList:"popular",
 }
 
 
@@ -43,6 +51,12 @@ export const movieSlice = createSlice({
                 state.searchData?.push(...action.payload);
             }
         },
+        setTrendingCategory: (state, action: PayloadAction<"all"|"movie"|"tv">) => {
+            if(action.payload != state.trendingCategory){
+                state.trendingData = []
+                state.trendingCategory = action.payload;
+            }
+        },
         setTrendingTimeWindow: (state, action: PayloadAction<"day"|"week">) => {
             if(action.payload != state.trendingTimeWindow){
                 state.trendingData = []
@@ -54,6 +68,16 @@ export const movieSlice = createSlice({
                 state.trendingData?.push(...action.payload);
             }
         },
+        setMovieList:(state, action:PayloadAction<IMovieList>) => {
+            if(action.payload != state.movieList){
+                state.movieList = action.payload
+            }
+        },
+        setTvSeriesList:(state, action:PayloadAction<ITvSeriesList>) => {
+            if(action.payload != state.tvSeriesList){
+                state.tvSeriesList = action.payload
+            }
+        }
     }
 });
 
@@ -64,7 +88,10 @@ export const {
     setSearchData,
     appendSearchData,
     setTrendingTimeWindow,
-    appendTrendingData
+    setTrendingCategory,
+    appendTrendingData,
+    setMovieList,
+    setTvSeriesList,
 } = movieSlice.actions
 export default movieSlice.reducer
 

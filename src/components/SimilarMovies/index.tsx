@@ -13,7 +13,7 @@ const useAppDispatch: () => AppDispatch = useDispatch;
 const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 
-const SimilarMovies = ({movieId}:{movieId:string}) => {
+const SimilarMovies = ({category,id}:{category:"movie"|"tv",id:string}) => {
 
   
     const dispatch: AppDispatch = useAppDispatch();
@@ -23,14 +23,14 @@ const SimilarMovies = ({movieId}:{movieId:string}) => {
       isLoading,
       isError,
     } = useAppSelector((state: RootState) =>
-      movieApi.endpoints.similar.select(movieId)(state)
+      movieApi.endpoints.similar.select({category:category ,id:id})(state)
     );
   
 
   
     useEffect(() => {
-      dispatch(movieApi.endpoints.similar.initiate(movieId));
-    }, [dispatch, movieId]);
+      dispatch(movieApi.endpoints.similar.initiate({category:category ,id:id}));
+    }, [dispatch,category,  id]);
   
 
     return (

@@ -4,12 +4,12 @@ import { getMovieDetails } from "@/lib/requests/movie";
 // export const revalidate = 600;
 
 
-export async function GET(request: NextRequest,{params}:{params:{movieId:string}} ) {
+export async function GET(request: NextRequest,{params}:{params:{tvShowId:string}} ) {
 
-    const movieId = params.movieId
+    const movieId = params.tvShowId
     // console.log("Movie Detail API: mid:",movieId);
 
-    const res = await getMovieDetails({movieId:movieId,type:"movie"});
+    const res = await getMovieDetails({movieId:movieId,type:"tv_show"});
     return NextResponse.json(res)
   }
 

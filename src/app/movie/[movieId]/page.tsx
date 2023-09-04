@@ -11,7 +11,7 @@ const MoviePage = ({params,searchParams}:{params:{movieId:string},searchParams:{
         <div className="bg-secondary">
             <MovieDetails movieId={movieId} />
             <Separator />
-            <SimilarMovies  movieId={movieId} />
+            <SimilarMovies category="movie"  id={movieId} />
         </div>
     );
 };

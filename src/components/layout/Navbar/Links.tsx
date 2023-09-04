@@ -33,8 +33,8 @@ const links = [
     auth: "neutral",
   },
   {
-    name: "Top IMDB",
-    path: "/top-imdb",
+    name: "Search",
+    path: "/search",
     auth: "neutral",
   },
   {
@@ -42,6 +42,7 @@ const links = [
     path: "/about",
     auth: "neutral",
   },
+
 ];
 
 const Links = () => {
@@ -53,6 +54,24 @@ const Links = () => {
 
   //controls navbar visiblity on scroll
   const updatePageYHandler = useDebouncedCallback(() => {
+    
+    if ( pageY > 20) {
+      if (linkRef.current && linkRef.current.parentElement?.parentElement) {
+        // linkRef.current.parentElement?.parentElement.classList.remove('slide-up-anim');
+        linkRef.current.parentElement?.parentElement.classList.add(
+          "bg-white","dark:bg-slate-700", "shadow-md",
+        );
+      }
+    }else{
+      if (linkRef.current && linkRef.current.parentElement?.parentElement) {
+        // linkRef.current.parentElement?.parentElement.classList.remove('slide-up-anim');
+        linkRef.current.parentElement?.parentElement.classList.remove(
+          "bg-white","dark:bg-slate-700", "shadow-md",
+        );
+      }
+    }
+
+
     if (window.scrollY - pageY < 0 && window.scrollY >= 1) {
       if (linkRef.current && linkRef.current.parentElement?.parentElement) {
         // linkRef.current.parentElement?.parentElement.classList.remove('slide-up-anim');
@@ -154,7 +173,7 @@ const MobileLinks = ({closeFn}:{closeFn:()=>void}) => {
       exit={{ x: "-100%" }}
       transition={{ type: "tween" }}
       className=" sm:hidden fixed h-full min-h-screen shadow-light  dark:border-r border-accent-foreground
-         top-0 left-0 bg-accent w-[75%] 
+         top-0 left-0 bg-accent w-[75%]  z-[99]
         font-light p-4"
       style={{
         backdropFilter: "blur(5px)",

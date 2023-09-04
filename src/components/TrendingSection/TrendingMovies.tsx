@@ -5,10 +5,12 @@ import { movieApi } from "@/lib/redux/slices/movieApi";
 import { setTrendingTimeWindow } from "@/lib/redux/slices/movieSlice";
 import { RootState, AppDispatch } from "@/lib/redux/store";
 import { easeIn, motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Play } from "lucide-react";
 import { useRouter } from "next/navigation";
 import MoviesGrid from "@/components/MoviesGrid";
+import Filter from "./Filter";
+import Pagination from "@/components/Pagination";
 
 const useAppDispatch: () => AppDispatch = useDispatch;
 const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
@@ -18,27 +20,51 @@ const TrendingMovies = () => {
   const trendingTimeWindow = useSelector(
     (state: RootState) => state.movies.trendingTimeWindow
   );
+  const trendingCategory = useSelector(
+    (state: RootState) => state.movies.trendingCategory
+  );
   const dispatch: AppDispatch = useAppDispatch();
+
+  const [page, setPage] = useState<number>(1)
+ 
 
   const {
     data: trendingResult,
     isLoading,
     isError,
   } = useAppSelector((state: RootState) =>
-    movieApi.endpoints.trending.select(trendingTimeWindow)(state)
+    movieApi.endpoints.trending.select({category:trendingCategory, timeWindow:trendingTimeWindow, page:page})(state)
   );
 
-
+// console.log("result::",trendingResult);
 
   useEffect(() => {
-    dispatch(movieApi.endpoints.trending.initiate(trendingTimeWindow));
-  }, [dispatch, trendingTimeWindow]);
+    dispatch(movieApi.endpoints.trending.initiate({category:trendingCategory, timeWindow:trendingTimeWindow, page:page}));
+  }, [dispatch,trendingCategory, trendingTimeWindow, page]);
 
   return (
-    <MoviesGrid 
-    isLoading={isLoading}
-    movies={trendingResult as IMovieResult}
-    />
+    <>
+       <div className="w-full flex justify-between items-center flex-col sm:flex-row gap-2 sm:gap-0 mb-5 ">
+        <div className="font-normal text-4xl text-accent dark:text-yellow-600">
+          Trending
+        </div>
+        <Filter/>
+      </div>
+
+      <MoviesGrid 
+      isLoading={isLoading}
+      movies={trendingResult as IMovieResult}
+      />
+
+      <Pagination
+             current={trendingResult?.page || 1}
+             total_pages={trendingResult?.total_pages ? (trendingResult?.total_pages>500 ? trendingResult?.total_pages/2 : trendingResult?.total_pages)  : 1}
+             total_results={trendingResult?.total_results || 0}
+             page={page}
+             setPage={setPage}
+      />
+
+    </>
   )
 
   /*

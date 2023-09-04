@@ -6,8 +6,7 @@ export async function GET(request: NextRequest,{params}:{params:{movieId:string}
 
     const movieId = params.movieId
 
-    const res = await getSimilarMovies({movieId:movieId});
-    console.log("***************************************trending res:",res);
+    const res = await getSimilarMovies({movieId:movieId,type:"movie"});
     return NextResponse.json(res)
   }
 

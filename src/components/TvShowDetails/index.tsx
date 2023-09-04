@@ -18,22 +18,22 @@ const MotioPlay = motion(Play);
 const useAppDispatch: () => AppDispatch = useDispatch;
 const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-const MovieDetails = ({ movieId }: { movieId: string }) => {
+const TvShowDetails = ({ tvShowId }: { tvShowId: string }) => {
   const {
     data: movie,
     isLoading,
     isError,
   } = useAppSelector((state: RootState) =>
-    movieApi.endpoints.movie.select(movieId)(state)
+    movieApi.endpoints.tv_show.select(tvShowId)(state)
   );
   const dispatch: AppDispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(movieApi.endpoints.movie.initiate(movieId));
-    console.log("Movie Detail Result:", movie);
-  }, [dispatch, movieId]);
+    dispatch(movieApi.endpoints.tv_show.initiate(tvShowId));
+    console.log("Tv Show Detail Result:", movie);
+  }, [dispatch, tvShowId]);
 
-  console.log("MOVIEID", movieId, movie);
+  console.log("TVSHOWID", tvShowId, movie);
   if (isLoading) return <Skeleton />;
 
   if (!movie) return null;
@@ -48,7 +48,7 @@ const MovieDetails = ({ movieId }: { movieId: string }) => {
             loading="lazy"
             placeholder="blur"
             blurDataURL="/images/placeholder-portrait.jpg"
-            alt={movie.title || "Search Result Image"}
+            alt={movie.name || "Search Result Image"}
             src={
               movie.poster_path
                 ? `${process.env.NEXT_PUBLIC_TMDB_IMAGE_URL}${process.env.NEXT_PUBLIC_ORIGINAL}${movie.backdrop_path}`
@@ -58,7 +58,7 @@ const MovieDetails = ({ movieId }: { movieId: string }) => {
         </div>
         <div className="h-[80vh] w-[100vw] absolute top-0 bg-black/30">
           <h2 className="w-full text-white font-semibold bg-black/30 p-2">
-            Home / Movie / {movie.title}
+            Home / Movie / {movie.name}
           </h2>
           <motion.div className="w-full   h-full  flex justify-center items-center cursor-pointer">
             <MotioPlay
@@ -81,7 +81,7 @@ const MovieDetails = ({ movieId }: { movieId: string }) => {
             loading="lazy"
             placeholder="blur"
             blurDataURL="/images/placeholder-portrait.jpg"
-            alt={movie.title || "Search Result Image"}
+            alt={movie.name || "Search Result Image"}
             src={
               movie.poster_path
                 ? `${process.env.NEXT_PUBLIC_TMDB_IMAGE_URL}${process.env.NEXT_PUBLIC_W500}${movie.poster_path}`
@@ -115,7 +115,7 @@ const MovieDetails = ({ movieId }: { movieId: string }) => {
         </div>
         <div className=" px-2 2xl:px-10 h-full flex-grow  flex gap-4 flex-col items-start justify-start">
           <div className="w-full flex justify-between items-center">
-          <Button className="bg-blue-400 text-white rounded-full dark:hover:bg-accent dark:hover:text-accent-foreground">
+            <Button className="bg-blue-400 text-white rounded-full dark:hover:bg-accent dark:hover:text-accent-foreground">
               <Play className="h-5 w-5 mr-2" />
               Watch now
             </Button>
@@ -125,7 +125,7 @@ const MovieDetails = ({ movieId }: { movieId: string }) => {
             </Button>
           </div>
           <div className="text-xl 2xl:text-2xl font-semibold">
-            {movie.title}
+            {movie.name}
           </div>
           <div className="flex gap-2 justify-start items-center">
             <Button
@@ -140,43 +140,44 @@ const MovieDetails = ({ movieId }: { movieId: string }) => {
             </span>
           </div>
           <div className="text-sm 2xl:text-lg">{movie.overview}</div>
-          <div className="text-sm 2xl:text-lg w-full flex flex-col sm:flex-row justify-between items-start">
+          <div className="text-sm 2xl:text-lg w-full flex flex-col sm:flex-row justify-between gap-2 items-start">
             <div className="flex flex-col">
               <div className="flex gap-2">
                 <span className="font-semibold">Released:</span>
-                <span>{movie.release_date}</span>
+                <span>{movie.first_air_date}</span>
               </div>
               <div className="flex gap-2">
                 <span className="font-semibold">Genre:</span>
                 <span>
-                  {movie?.genres?.length ? movie.genres.map(
+                  {movie.genres ? movie.genres.map(
                     (g, i) =>
                       g.name + `${movie.genres.length != i + 1 ? ", " : ""}`
                   ) : "N/A"}
                 </span>
               </div>
+
               <div className="flex gap-2">
-                <span className="font-semibold">Budget:</span>
+                <span className="font-semibold">Status:</span>
                 <span>
-                  {movie?.budget
-                    ? formatNumberWithAbbreviations(movie.budget)
+                  {movie?.in_production ?  "airing" : "finished"  }
+                </span>
+              </div>
+
+              <div className="flex gap-2">
+                <span className="font-semibold">Seasons:</span>
+                <span>
+                  {movie?.number_of_seasons
+                    ? movie.number_of_seasons
                     : "N/A"}
                 </span>
               </div>
-              <div className="flex gap-2">
-                <span className="font-semibold">Collection:</span>
-                <span>
-                  {movie?.revenue
-                    ? formatNumberWithAbbreviations(movie.revenue)
-                    : "N/A"}
-                </span>
-              </div>
+
             </div>
 
             <div className="flex flex-col">
               <div className="flex gap-2">
                 <span className="font-semibold">Duration:</span>
-                <span>{movie.release_date}</span>
+                <span>{movie.first_air_date}</span>
               </div>
               <div className="flex gap-2">
                 <span className="font-semibold">Country:</span>
@@ -210,4 +211,4 @@ const MovieDetails = ({ movieId }: { movieId: string }) => {
   );
 };
 
-export default MovieDetails;
+export default TvShowDetails;
