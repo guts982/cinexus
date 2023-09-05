@@ -29,9 +29,7 @@ const AboutPage = () => {
           accusamus temporibus reprehenderit suscipit incidunt labore, commodi
           quos optio iusto odio impedit eligendi facere facilis quam quas at
           molestias excepturi! Rem eius sit culpa praesentium itaque veritatis
-          labore inventore porro ad, maiores, illo nam quidem eum ut officia
-          error, laudantium dolor rerum quae obcaecati! Doloremque aliquam
-          praesentium exercitationem maiores deserunt ut. Officia quae officiis
+          labore inventore porro ad, maiores, quae officiis
           distinctio possimus nisi et quia culpa totam quasi recusandae!
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel nam magni
           ex, vitae optio pariatur adipisci aliquid harum ea quae! Lorem ipsum
@@ -73,6 +71,7 @@ const AboutPage = () => {
           praesentium exercitationem maiores deserunt ut. Officia quae officiis
           distinctio possimus nisi et quia culpa totam quasi recusandae!
         </div>
+
       </div>
     );
 };
