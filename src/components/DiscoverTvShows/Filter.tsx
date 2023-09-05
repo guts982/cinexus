@@ -23,7 +23,7 @@ const Filter = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setTvSeriesList(activeTvSeriesList));
-    console.log("LIST:",activeTvSeriesList);
+    // console.log("LIST:",activeTvSeriesList);
   }, [activeTvSeriesList]);
 
 

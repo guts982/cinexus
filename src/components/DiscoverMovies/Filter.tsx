@@ -23,7 +23,7 @@ const Filter = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setMovieList(activeMovieList));
-    console.log("LIST:",activeMovieList);
+    // console.log("LIST:",activeMovieList);
   }, [activeMovieList]);
 
 

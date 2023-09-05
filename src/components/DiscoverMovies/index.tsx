@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import MoviesGrid from "@/components/MoviesGrid";
 import Filter from "./Filter";
 import Pagination from "@/components/Pagination";
+import { Button } from "../ui/button";
 
 const useAppDispatch: () => AppDispatch = useDispatch;
 const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
@@ -30,11 +31,12 @@ const DiscoverMovies = () => {
     movieApi.endpoints.discover.select({category:"movies",list:movieList,page:page})(state)
   );  
   
-  console.log("movies result::",movies);
 
   useEffect(() => {
     dispatch(movieApi.endpoints.discover.initiate({category:"movies",list:movieList,page:page}));
   }, [dispatch,movieList,page]);
+
+
 
   return (
     <>
@@ -48,13 +50,15 @@ const DiscoverMovies = () => {
 
       <MoviesGrid isLoading={isLoading} movies={movies as IMoviesResult} />
 
-      <Pagination
+      {/* <Button onClick={()=>setPage(o=>o+1)} disabled={isLoading} > {isLoading ? "Loading..." : "Load More"} </Button> */}
+
+      {/* <Pagination
              current={movies?.page || 1}
              total_pages={movies?.total_pages ? (movies?.total_pages>500 ? movies?.total_pages/2 : movies?.total_pages)  : 1}
              total_results={movies?.total_results || 0}
              page={page}
              setPage={setPage}
-      />
+      /> */}
     </>
   );
 };

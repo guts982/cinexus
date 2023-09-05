@@ -50,7 +50,7 @@ export const getTrending = async ({ category,timeWindow,page="1" }: { category:"
 export const getDiscover = async ({category,list,page="1"}:{category:"movies"|"tv_shows",list:IMovieList | ITvSeriesList,page?:string}) => {
 
     const cat = category=="movies"?"movie":"tv";
-    const url = `${process.env.TMDB_API_URL}/${cat}/${list}?page=${page}&include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc`;
+    const url = `${process.env.TMDB_API_URL}${cat}/${list}?page=${page}&include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc`;
     console.log("HITTING: ",url);
     const options = {
         method: "GET",

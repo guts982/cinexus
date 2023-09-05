@@ -56,13 +56,13 @@ const TrendingMovies = () => {
       movies={trendingResult as IMovieResult}
       />
 
-      <Pagination
+      {/* <Pagination
              current={trendingResult?.page || 1}
              total_pages={trendingResult?.total_pages ? (trendingResult?.total_pages>500 ? trendingResult?.total_pages/2 : trendingResult?.total_pages)  : 1}
              total_results={trendingResult?.total_results || 0}
              page={page}
              setPage={setPage}
-      />
+      /> */}
 
     </>
   )
