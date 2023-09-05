@@ -8,12 +8,28 @@ import { getSearchResults } from "@/lib/requests/movie";
 import SSRSearchResult from "@/components/SearchSection/SSRSearchResult";
 import SearchBox from "@/components/SearchSection/SearchBox";
 
-const SearchPage = async (req: NextRequest) => {
-  //@ts-ignore
-  const query = req?.searchParams?.query || null;
-  //@ts-ignore
-  const page = req?.searchParams?.page || 1;
-  const results: ISearchResult = await getSearchResults({ query, page });
+type SearchPageSearchParams = {
+  page?: string;
+  query?: string;
+}
+
+type Props = {
+  params: {},
+  // searchParams: {[key: string]: string | string[] | undefined}
+  searchParams:SearchPageSearchParams
+}
+
+const SearchPage = async (props:Props) => {
+  
+  // const query =   req?.searchParams?.query || null;
+  // const page = req?.searchParams?.page || 1;
+
+  const searchParams = props.searchParams;
+  const page = searchParams.page;
+  const query = searchParams.query;
+
+
+  const results: ISearchResult = await getSearchResults({ query , page  });
 
   store.dispatch(setSearchResult(results));
 

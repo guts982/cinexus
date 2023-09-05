@@ -1,10 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
 import { Play, ThumbsUp, ThumbsDown, Plus, Video } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 import { movieApi } from "@/lib/redux/slices/movieApi";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { setTrendingTimeWindow } from "@/lib/redux/slices/movieSlice";
 import { RootState, AppDispatch } from "@/lib/redux/store";
 import { useEffect } from "react";
 import Image from "next/image";
@@ -30,10 +28,8 @@ const MovieDetails = ({ movieId }: { movieId: string }) => {
 
   useEffect(() => {
     dispatch(movieApi.endpoints.movie.initiate(movieId));
-    console.log("Movie Detail Result:", movie);
   }, [dispatch, movieId]);
 
-  console.log("MOVIEID", movieId, movie);
   if (isLoading) return <Skeleton />;
 
   if (!movie) return null;

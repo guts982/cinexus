@@ -4,9 +4,7 @@ import { useRouter, usePathname, useSearchParams} from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useDebounce } from 'use-debounce';
 import { useDispatch } from 'react-redux';
-import { Button } from '@/components/ui/button';
 
-const MotionButton = motion(Button)
 
 const SearchBox = () => {
     const router = useRouter()
@@ -14,15 +12,9 @@ const SearchBox = () => {
     const searchParams = useSearchParams()
 
     const [query,setQuery] = useState(searchParams.get('query') || '');
-    const [debouncedQuery] = useDebounce(query, 300);
+    const [debouncedQuery] = useDebounce(query, 500);
 
     const dispatch = useDispatch();
-
-    useEffect(()=>{
-        // console.log("debounced val",debouncedQuery);
-        handleSearch()
-    },[dispatch, debouncedQuery])
-
 
     // Get a new searchParams string by merging the current
     // searchParams with a provided key/value pair
@@ -40,9 +32,14 @@ const SearchBox = () => {
     const handleKeyDown = (e:KeyboardEvent<HTMLInputElement>)=>{
         if(e.key.toLowerCase()=="enter") handleSearch()
     }   
-    const handleSearch = () => {
-        router.push(pathname + '?' + createQueryString('query', query))
-    }
+    const handleSearch = useCallback( () => {
+        router.push(pathname + '?' + createQueryString('query', debouncedQuery))
+    }, [createQueryString, debouncedQuery, router, pathname] )
+
+    useEffect(()=>{
+        handleSearch()
+    },[dispatch, debouncedQuery, handleSearch])
+
 
     return (
         <div className='w-full px-2 flex flex-col sm:flex-row justify-center items-center gap-2'>

@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +9,6 @@ import {
   setTrendingTimeWindow,
 } from "@/lib/redux/slices/movieSlice";
 
-const MotionButton = motion(Button);
 
 type ITrendingCategory = "all" | "movie" | "tv";
 type ITrendingTimeWindow = "day" | "week";
@@ -30,10 +28,10 @@ const Filter = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setTrendingCategory(activeCategory));
-  }, [activeCategory]);
+  }, [dispatch, activeCategory]);
   useEffect(() => {
     dispatch(setTrendingTimeWindow(activeTimeWindow));
-  }, [activeTimeWindow]);
+  }, [dispatch, activeTimeWindow]);
 
   return (
     <>

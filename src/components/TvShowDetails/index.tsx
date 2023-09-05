@@ -1,16 +1,13 @@
 "use client";
 import { motion } from "framer-motion";
 import { Play, ThumbsUp, ThumbsDown, Plus, Video } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 import { movieApi } from "@/lib/redux/slices/movieApi";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { setTrendingTimeWindow } from "@/lib/redux/slices/movieSlice";
 import { RootState, AppDispatch } from "@/lib/redux/store";
 import { useEffect } from "react";
 import Image from "next/image";
 import { Progress } from "../ui/progress";
 import { Button } from "../ui/button";
-import { formatNumberWithAbbreviations } from "@/lib/utils";
 import Skeleton from "./Skeleton";
 
 const MotioPlay = motion(Play);
@@ -30,10 +27,8 @@ const TvShowDetails = ({ tvShowId }: { tvShowId: string }) => {
 
   useEffect(() => {
     dispatch(movieApi.endpoints.tv_show.initiate(tvShowId));
-    console.log("Tv Show Detail Result:", movie);
   }, [dispatch, tvShowId]);
 
-  console.log("TVSHOWID", tvShowId, movie);
   if (isLoading) return <Skeleton />;
 
   if (!movie) return null;

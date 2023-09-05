@@ -1,17 +1,15 @@
 "use client";
-import ToggleTheme from "./ToggleTheme";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-// import { MoveLeft } from "react-icons/io5";
 import { MoveLeft } from 'lucide-react';
 import ToggleMenu from "./ToggleMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/redux/store";
 import { setMobNavOpen as setMNavOpen } from "@/lib/redux/slices/globalSlice";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {  useEffect, useRef, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
-import LoginBtn from "./LoginBtn";
+
 import { ModeToggle } from "@/components/ui/ModeToggle";
 
 const MotionLink = motion(Link);
@@ -96,12 +94,12 @@ const Links = () => {
 
   useEffect(() => {
     dispatch(setMNavOpen(mobNavOpen));
-  }, [mobNavOpen]);
+  }, [dispatch, mobNavOpen]);
 
   useEffect(() => {
     window.addEventListener("scroll", updatePageYHandler);
     return () => window.removeEventListener("scroll", updatePageYHandler);
-  }, []);
+  }, [updatePageYHandler]);
 
   return (
     <>

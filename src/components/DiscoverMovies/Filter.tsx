@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +8,6 @@ import {
     setMovieList,
 } from "@/lib/redux/slices/movieSlice";
 
-const MotionButton = motion(Button);
 
 
 const Filter = () => {
@@ -23,8 +21,7 @@ const Filter = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setMovieList(activeMovieList));
-    // console.log("LIST:",activeMovieList);
-  }, [activeMovieList]);
+  }, [dispatch, activeMovieList]);
 
 
   return (
