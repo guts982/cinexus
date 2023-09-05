@@ -1,8 +1,10 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query";
 
+const API_URL = `${process.env.NEXT_PUBLIC_APP_URL}/api/`
+
 export const movieApi = createApi({
     reducerPath:"movieApi",
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:3000/api/'}),
+    baseQuery: fetchBaseQuery({baseUrl: API_URL}),
     tagTypes: ["search","trending","movie", "similar", "tv_show", "discover"],
     endpoints: (builder) => ({
         search: builder.query<ISearchResult, string>({
